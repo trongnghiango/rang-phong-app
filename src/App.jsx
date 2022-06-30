@@ -86,9 +86,9 @@ export default function App() {
                     <h2 className="text-lg">UPLOAD</h2>
                     <Dropzone onDrop={handleDrop} className="">
                         {({ getRootProps, getInputProps }) => (
-                            <div {...getRootProps({ className: "dropzone p-2 bg-gray-200 rounded" })}>
+                            <div {...getRootProps({ className: "dropzone p-2 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer" })}>
                                 <input {...getInputProps()} />
-                                <p>Drag'n'drop files, or click to select files</p>
+                                <p>Select files</p>
                             </div>
                         )}
                     </Dropzone>
