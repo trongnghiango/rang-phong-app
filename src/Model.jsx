@@ -5,6 +5,8 @@ import { Html, useProgress } from '@react-three/drei'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import Maxillary from './components/Maxillary'
+import { useStateValue } from './StateProvider';
+import { actionTypes } from './reducer';
 
 extend({ OrbitControls });
 
@@ -36,15 +38,35 @@ const CameraControls = () => {
 };
 
 
-export default function Model({onStep, stepInput, data}) {
-    const [step, setStep] = useState(-1);
+export default function Model({ data }) {
+    const [state, dispatch] = useStateValue();
+    const { isPlaying, steps, step } = state;
+
+    const setStepInc = (val) => {
+        dispatch({
+            type: actionTypes.INC_STEP,
+            step: val
+        })
+    }
+
+    const resetStep = () => {
+        dispatch({ type: actionTypes.RESET_STEP })
+    }
 
     const refTimerId = useRef(); //when using: .current
-    const handleStart = () => {
+    const handleStart = (timer = 1000) => {
         refTimerId.current = setInterval(() => {
-            setStep(prevStep => prevStep + 1)
+            setStepInc(1)
+        }, timer)
+    }
 
-        }, 1000)
+    const handlePlay = () => {
+        if (isPlaying && refTimerId.current) {
+            handlePause()
+        } else {
+            handleStart()
+        }
+        dispatch({ type: actionTypes.TOGGLE_PLAY })
     }
 
     const handlePause = () => {
@@ -54,7 +76,7 @@ export default function Model({onStep, stepInput, data}) {
     const handleStop = () => {
         //clearInterval(refTimerId.current)
         handlePause()
-        setStep(0)
+        resetStep()
 
     }
 
@@ -63,10 +85,7 @@ export default function Model({onStep, stepInput, data}) {
     }
 
     useEffect(() => {
-        console.log(refTimerId.current)
-        console.log(stepInput)
-        onStep(step)
-        if (step >= 27) {
+        if (Object.keys(steps).length <= 0 || step >= Object.keys(steps).length) {
             handlePause()
         }
         //
@@ -75,7 +94,7 @@ export default function Model({onStep, stepInput, data}) {
         }
 
 
-    }, [step]);
+    }, [state.step]);
 
     useEffect(() => {
         return () => {
@@ -86,35 +105,35 @@ export default function Model({onStep, stepInput, data}) {
     return (
         <div className="w-full h-full">
             <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 150], fov: 50 }} >
-                <Suspense fallback={<Loader isFinished={handleLoaderFinished}/>}>
-                    <mesh
-                    // onClick={(e) => console.log('click')}
-                    // onContextMenu={(e) => console.log('context menu')}
-                    // onDoubleClick={(e) => console.log('double click')}
-                    // onWheel={(e) => console.log('wheel spins')}
-                    // onPointerUp={(e) => console.log('up')}
-                    // onPointerDown={(e) => console.log('down')}
-                    // onPointerOver={(e) => console.log('over')}
-                    // onPointerOut={(e) => console.log('out')}
-                    // onPointerEnter={(e) => console.log('enter')}
-                    // onPointerLeave={(e) => console.log('leave')}
-                    // onPointerMove={(e) => console.log('move')}
-                    // onPointerMissed={() => console.log('missed')}
-                    // onUpdate={(self) => console.log('props have been updated')}
-                    >
-                        {/* {[...Array(28)].map((val,index) => {
+                <Suspense fallback={<Loader isFinished={handleLoaderFinished} />}>
+                    {/* <mesh
+                    onClick={(e) => console.log('click')}
+                    onContextMenu={(e) => console.log('context menu')}
+                    onDoubleClick={(e) => console.log('double click')}
+                    onWheel={(e) => console.log('wheel spins')}
+                    onPointerUp={(e) => console.log('up')}
+                    onPointerDown={(e) => console.log('down')}
+                    onPointerOver={(e) => console.log('over')}
+                    onPointerOut={(e) => console.log('out')}
+                    onPointerEnter={(e) => console.log('enter')}
+                    onPointerLeave={(e) => console.log('leave')}
+                    onPointerMove={(e) => console.log('move')}
+                    onPointerMissed={() => console.log('missed')}
+                    onUpdate={(self) => console.log('props have been updated')}
+                    > */}
+                    {/* {[...Array(28)].map((val,index) => {
                             const url = `/assets/rang/Maxillary-${index}.stl`
                             //console.log(url)
                             return (
-                                (step === index || step === -1) && <Maxillary key={index} url={url} />
+                                <></>
                             )
                         })} */}
-                        {
-                            Object.keys(data).map((val, index) => (step === index || step === -1) && <Maxillary key={index} url={data[val]} />)
-                        }
-                        {/* <Maxillary url={url} /> */}
+                    {
+                        Object.keys(steps).length > 0 && Object.keys(steps).map((val, index) => (state.step == -1 || state.step == index) && <Maxillary key={index} url={steps[val]} />)
+                    }
+                    {/* <Maxillary url={url} /> */}
 
-                    </mesh>
+                    {/* </mesh> */}
 
                     {/*<spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-mapSize={[512, 512]} castShadow /> */}
                     {/* den ambient */}
@@ -135,10 +154,10 @@ export default function Model({onStep, stepInput, data}) {
 
             </Canvas>
             <div className='absolute bottom-[50px] left-2'>
-                <h2 className="text-2xl" >{step}</h2>
-                <button onClick={handleStart} className="px-2 py-1 bg-slate-300 rounded-md mr-2">Start</button>
-                <button onClick={handlePause} className="px-2 py-1 bg-slate-300 rounded-md mr-2">Pause</button>
-                <button onClick={handleStop} className="px-2 py-1 bg-slate-300 rounded-md mr-2">Stop</button>
+                <h2 className="text-2xl" >{state.step}</h2>
+                <button onClick={handlePlay} className="px-2 w-[70px] py-1 bg-slate-300 rounded-md mr-2">{isPlaying ? "PAUSE" : "PLAY"}</button>
+
+                <button onClick={handleStop} className="px-2 py-1 w-[70px] bg-slate-300 rounded-md mr-2">RESET</button>
             </div>
         </div>
     )
@@ -146,9 +165,9 @@ export default function Model({onStep, stepInput, data}) {
 
 
 
-function Loader({isFinished}) {
-  const { progress } = useProgress()
-  console.log({progress})
-  if (progress === 100) isFinished();
-  return <Html center>{progress} % loaded</Html>
+function Loader({ isFinished }) {
+    const { progress } = useProgress()
+    console.log({ progress })
+    if (progress === 100) isFinished();
+    return <Html center>{progress} % loaded</Html>
 }
