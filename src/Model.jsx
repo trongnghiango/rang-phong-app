@@ -8,6 +8,9 @@ import Maxillary from './components/Maxillary'
 import { useStateValue } from './StateProvider';
 import { actionTypes } from './reducer';
 import { defaultTimer } from './contants';
+import playIcon from '../assets/static/play.svg'
+import pauseIcon from '../assets/static/pause.svg'
+import resetIcon from '../assets/static/reset.svg'
 
 extend({ OrbitControls });
 
@@ -162,14 +165,14 @@ export default function Model({ data }) {
           <button onClick={handlePlay} className="px-2 w-[50px] h-[50px] flex justify-center items-center py-1 bg-slate-300 rounded-full mr-2">
             {
               isPlaying ?
-                <img src='/assets/pause.svg' height={'25px'} width={'25px'} />
+                <img src={pauseIcon} height={'25px'} width={'25px'} />
                 :
-                <img src='/assets/play.svg' height={'25px'} width={'25px'} />
+                <img src={playIcon} height={'25px'} width={'25px'} />
             }
           </button>
 
           <button onClick={handleStop} className="px-2 py-1 w-[35px] h-[35px] bg-slate-300 rounded-full mr-2">
-          <img src='/assets/reset.svg' height={'25px'} width={'25px'} /> 
+          <img src={resetIcon} height={'25px'} width={'25px'} /> 
           </button>
         </div>
       </div>}
