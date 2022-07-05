@@ -1,5 +1,4 @@
-//
-
+// create, update data for app
 export const initialState = {
     steps: {},
     step: -1,

@@ -73,8 +73,8 @@ export default function App() {
 
   return (
     // <div className="flex flex-col h-screen bg-[#0099CC]">
-    <div className="flex flex-col h-screen bg-orange-300">
-      <header className="py-4 text-center shadow">
+    <div className="flex flex-col h-screen bg-[#00a2d8]">
+      <header className="py-4 text-center shadow bg-gray-800 text-white">
         Sticky Header and Footer with Tailwind
       </header>
       <main className="flex-1 overflow-y-auto">
@@ -97,8 +97,11 @@ export default function App() {
             : <button className="p-2 bg-gray-200 rounded" onClick={handleClearData}>CLEAR</button>}
         </div>
       </main>
-      <footer className="py-4 px-5 bg-blue-400 text-center text-white">
-        <ProgressBar percent={step * 100 / (Object.keys(steps).length - 1)}>
+      <footer className="h-[40px] flex flex-col justify-center py-4 px-8 bg-gray-700 text-center text-black">
+        <ProgressBar 
+          percent={step * 100 / (Object.keys(steps).length - 1)}
+          height={0}
+        >
           {[...Array(Object.keys(steps).length)].map((val, index) =>
             <Step key={index}>
               {({ accomplished, index }) => (

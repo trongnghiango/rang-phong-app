@@ -2,6 +2,7 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { useLoader, useThree } from '@react-three/fiber'
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three'
+import { teethColor } from '../contants';
 
 function Maxillary({ url }) {
     const geom = useLoader(STLLoader, url);
@@ -16,7 +17,7 @@ function Maxillary({ url }) {
         <>
             <mesh ref={ref}>
                 <primitive object={geom} attach="geometry" />
-                <meshStandardMaterial color={new THREE.Color('#979797')} />
+                <meshStandardMaterial color={new THREE.Color('#777777')} />
             </mesh>
 
         </>
