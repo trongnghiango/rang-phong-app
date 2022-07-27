@@ -28,6 +28,7 @@ export default function App() {
     dispatch({ type: actionTypes.CLEAR_STEPS })
     dispatch({ type: actionTypes.RESET_STEP })
     dispatch({ type: actionTypes.SET_STEP, step: -1 })
+    //dispatch({ type: actionTypes.LOADING_FINISHED})
   }
 
   const handleDrop = (acceptedFiles) => {
@@ -36,9 +37,6 @@ export default function App() {
     console.log("path", acceptedFiles[0].name);
     console.log("url", URL.createObjectURL(acceptedFiles[0]));
 
-    //Bật cờ loading 
-    dispatch({ type: actionTypes.LOADING})
-    //
 
     // kho choi qua
     //handle mang file up vao
@@ -52,7 +50,12 @@ export default function App() {
     }
 
     // luu o bien global
+    console.log({temp})
     setSteps(temp)
+
+    //Bật cờ loading 
+    dispatch({ type: actionTypes.LOADING})
+    //
   }
 
   //parse ten file va lay stt lam key
@@ -65,7 +68,7 @@ export default function App() {
   }
 
   return (
-    <div className="bg-[#00a2d8]">
+    <div className="model-container">
       <Layout>
        
         <Model />

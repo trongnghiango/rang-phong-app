@@ -12,6 +12,7 @@ import playIcon from '../../../assets/static/play.svg'
 import pauseIcon from '../../../assets/static/pause.svg'
 import resetIcon from '../../../assets/static/reset.svg'
 import { useStateValue } from '../../StateProvider';
+import Mandibular from './Mandibular';
 
 extend({ OrbitControls });
 
@@ -47,6 +48,8 @@ export default function Model() {
   const [state, dispatch] = useStateValue();
   const { isPlaying, steps, step, isLoading } = state;
 
+  console.log({isLoading})
+
   //
   const handleLoaderFinished = () => {
     dispatch({ type: actionTypes.LOADING_FINISHED });
@@ -60,9 +63,11 @@ export default function Model() {
           {
             Object.keys(steps).length > 0 && Object.keys(steps).map((val, index) => (isLoading || state.step == index) && <Maxillary key={index} url={steps[val]} />)
           }
-          {/* <Maxillary url={url} /> */}
 
-          {/* </mesh> */}
+          {/* Hàm răng dưới */}
+          {
+             <Mandibular url={'/assets/static/mandibular/Mandibular.stl'} />
+          }
 
           {/*<spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-mapSize={[512, 512]} castShadow /> */}
           {/* den ambient */}

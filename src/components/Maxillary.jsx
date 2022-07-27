@@ -17,7 +17,7 @@ function Maxillary({ url }) {
         <>
             <mesh ref={ref}>
                 <primitive object={geom} attach="geometry" />
-                <meshStandardMaterial color={new THREE.Color('#777777')} />
+                <meshStandardMaterial color={new THREE.Color('#999999')} />
             </mesh>
 
         </>

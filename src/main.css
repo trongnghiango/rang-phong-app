@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Colors */
+  --bg-color: hsl(256, 33, 10);
+  --dot-color: hsl(256, 33, 70);
+
+  /* Dimensions */
+  --dot-size: 1px;
+  --dot-space: 22px;
+}
+
 .indexedStep {
   color: white;
   width: 30px;
@@ -33,4 +43,9 @@
   overflow-x: scroll;
   scroll-behavior: smooth;
 
+}
+
+.model-container {
+  background: linear-gradient(90deg, #00a2d8 21px, transparent 1%) center, linear-gradient(#00a2d8 21px, transparent 1%) center, #fff;
+  background-size: 22.4px 22.4px;
 }
