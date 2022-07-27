@@ -1,18 +1,15 @@
-import Model from "./Model";
-import "react-step-progress-bar/styles.css";
-import { ProgressBar, Step } from "react-step-progress-bar";
-import { useEffect, useState } from "react";
+import React from "react";
+import Layout from "./components/layout";
 import Dropzone from "react-dropzone";
-import Maxillary from "./components/Maxillary";
-import { useStateValue } from "./StateProvider";
 import { actionTypes } from "./reducer";
+import { useStateValue } from "./StateProvider";
+import Model from "./components/model";
 
 export default function App() {
-  //const [file, setFile] = useState({});
-  const [isFile, setIsFile] = useState(false);
   //global state
   const [state, dispatch] = useStateValue();
-  const { step, steps } = state;
+  const { step, steps, isLoading } = state;
+
 
   const setSteps = (data) => {
     dispatch({ type: actionTypes.SET_STEPS, steps: data })
@@ -34,10 +31,14 @@ export default function App() {
   }
 
   const handleDrop = (acceptedFiles) => {
-    setIsFile(true);
+
     console.log("test", acceptedFiles);
     console.log("path", acceptedFiles[0].name);
     console.log("url", URL.createObjectURL(acceptedFiles[0]));
+
+    //Bật cờ loading 
+    dispatch({ type: actionTypes.LOADING})
+    //
 
     // kho choi qua
     //handle mang file up vao
@@ -50,17 +51,9 @@ export default function App() {
       }
     }
 
-    //isSlowly
-    // acceptedFiles.forEach(file => {
-    //     const key = getItemKey(file.name); 
-    //     temp[key] = URL.createObjectURL(file); 
-    // });
-
-
     // luu o bien global
     setSteps(temp)
-
-  };
+  }
 
   //parse ten file va lay stt lam key
   function getItemKey(str) {
@@ -72,14 +65,10 @@ export default function App() {
   }
 
   return (
-    // <div className="flex flex-col h-screen bg-[#0099CC]">
-    <div className="flex flex-col h-screen bg-[#00a2d8]">
-      <header className="py-4 text-center shadow bg-gray-800 text-white">
-        Sticky Header and Footer with Tailwind
-      </header>
-      <main className="flex-1 overflow-y-auto relative">
-        {steps && <Model data={steps} />}
-
+    <div className="bg-[#00a2d8]">
+      <Layout>
+       
+        <Model />
         {/* view usign up model files */}
         <div className='absolute bottom-2 right-4'>
           {Object.keys(steps).length <= 0 ?
@@ -96,26 +85,7 @@ export default function App() {
             </>
             : <button className="p-2 bg-gray-200 rounded" onClick={handleClearData}>CLEAR</button>}
         </div>
-      </main>
-      <footer className="h-[60px] flex flex-col justify-center p-4 bg-gray-700 text-center text-black">
-        <ProgressBar 
-          percent={step * 100 / (Object.keys(steps).length - 1)}
-          height={0}
-        >
-          {[...Array(Object.keys(steps).length)].map((val, index) =>
-            <Step key={index}>
-              {({ accomplished, index }) => (
-                <button
-                  onClick={() => dispatch({ type: actionTypes.SET_STEP, step: index })}
-                  className={`indexedStep ${accomplished ? "accomplished" : null}`}
-                >
-                  {index}
-                </button>
-              )}
-            </Step>)}
-
-        </ProgressBar>
-      </footer>
+      </Layout>
     </div>
-  )
+  );
 }

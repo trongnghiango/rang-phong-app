@@ -3,19 +3,34 @@
 @tailwind utilities;
 
 .indexedStep {
-    color: white;
-    width: 30px;
-    /* padding: 0px 10px; */
-    height: 18px;
-    font-size: 10px;
-    background-color: rgba(211, 211, 211, 0.8);
-    border-radius: 20px;
-    /* border-radius: 50%; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  color: white;
+  width: 30px;
+  /* padding: 0px 10px; */
+  height: 18px;
+  font-size: 10px;
+  /* background-color: rgba(211, 211, 211, 0.8); */
+  border-radius: 20px;
+  border-width: 2px;
+  /* border-radius: 50%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .indexedStep.accomplished {
-    background-color: rgba(0, 116, 217, 1);
+  /* background-color: rgba(0, 116, 217, 1); */
+  background-color: white;
+  color: #00a2d8;
+}
+
+.RSPBprogressBar {
+  display: flex;
+  margin: 0 10px;
+  /* flex: 1; */
+  flex: 1 1 0%;
+  align-items: center;
+  gap: 8px;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+
 }

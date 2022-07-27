@@ -158,7 +158,7 @@ export default function Model({ data }) {
         </Suspense>
 
       </Canvas>
-      {<div className='absolute bottom-[50px] left-2'>
+      {<div className='absolute bottom-2 left-4'>
         <h2 className="text-2xl" >{state.step >= 0 ? state.step : ""}</h2>
         <div className='flex items-center'>
 
