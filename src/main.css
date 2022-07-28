@@ -14,9 +14,9 @@
 
 .indexedStep {
   color: white;
-  width: 30px;
+  width: 25px;
   /* padding: 0px 10px; */
-  height: 18px;
+  height: 15px;
   font-size: 10px;
   /* background-color: rgba(211, 211, 211, 0.8); */
   border-radius: 20px;
@@ -48,4 +48,49 @@
 .model-container {
   background: linear-gradient(90deg, #00a2d8 21px, transparent 1%) center, linear-gradient(#00a2d8 21px, transparent 1%) center, #fff;
   background-size: 22.4px 22.4px;
+}
+
+.btn {
+  background-image: url(./assets/viewZY.png);
+  height: 28px;
+  width: 25px;
+  background-repeat: no-repeat;
+  background-position-y: -28px;
+  background-size: 340px 50px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.btn-7 {
+  background-position-y: -28px; 
+  background-position-x: -134px;
+}
+
+.btn-8 {
+  background-position-y: 6px; 
+  background-position-x: -134px;
+}
+
+.btn-3 {
+  background-position-y: -28px; 
+  background-position-x: -43px;
+}
+.btn-2 {
+  background-position-y: -28px; 
+  background-position-x: 0px;
+}
+
+.btn-1 {
+  background-position-y: 6px; 
+  background-position-x: 0px;
+}
+
+.btn-16 {
+  background-position-y: -28px; 
+  background-position-x: -315px;
+}
+
+.btn-15 {
+  background-position-y: 6px; 
+  background-position-x: -315px;
 }

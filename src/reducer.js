@@ -4,7 +4,9 @@ export const initialState = {
   steps: {},
   step: -1,
   isPlaying: false,
-  isLoading: false
+  isLoading: false,
+  hideMaxillary: false,
+  hideMandibular: false
 };
 
 //
@@ -21,10 +23,42 @@ export const actionTypes = {
   //
   SET_STEPS: "SET_STEPS",
   CLEAR_STEPS: "CLEAR_STEPS",
+
+  //Ẩn hàm trên
+  HIDE_MAXILLARY: "HIDE_MAXILLARY",
+  SHOW_MAXILLARY: "SHOW_MAXILLARY",
+  HIDE_MANDIBULAR: "HIDE_MANDIBULAR",
+  SHOW_MANDIBULAR: "SHOW_MANDIBULAR"
+
 }
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    //
+    case actionTypes.HIDE_MAXILLARY:
+      return {
+        ...state,
+        hideMaxillary: true
+      };
+
+    case actionTypes.SHOW_MAXILLARY:
+      return {
+        ...state,
+        hideMaxillary: false
+      };
+
+    case actionTypes.HIDE_MANDIBULAR:
+      return {
+        ...state,
+        hideMandibular: true
+      };
+
+    case actionTypes.SHOW_MANDIBULAR:
+      return {
+        ...state,
+        hideMandibular: false
+      };
+
     // tang so buoc nhay STEP
     case actionTypes.INC_STEP:
       return {

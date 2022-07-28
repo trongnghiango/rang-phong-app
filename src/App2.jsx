@@ -5,6 +5,7 @@ import { actionTypes } from "./reducer";
 import { useStateValue } from "./StateProvider";
 import Model from "./components/model";
 import { useEffect } from "react";
+import ControlPanel from "./components/ControlPanel";
 
 export default function App() {
   //global state
@@ -17,7 +18,7 @@ export default function App() {
   }
 
   const setData = (data) => {
-    dispatch({type: actionTypes.SET_DATA, datas: data})
+    dispatch({ type: actionTypes.SET_DATA, datas: data })
   }
 
   const handleClearData = () => {
@@ -65,13 +66,13 @@ export default function App() {
     const length = Object.keys(maxillary).length > Object.keys(mandibular).length ? Object.keys(maxillary).length : Object.keys(mandibular).length
 
     //setData
-    setData({maxillary, mandibular, length })
+    setData({ maxillary, mandibular, length })
     //setSteps(maxillary)
 
     //Bật cờ loading 
     dispatch({ type: actionTypes.LOADING })
     // Load datas
-    
+
   }
 
   //parse ten file va lay stt lam key
@@ -85,14 +86,20 @@ export default function App() {
   }
 
   useEffect(() => {
-    console.log({datas})
-  }, [step] )
+    console.log({ datas })
+  }, [step])
 
   return (
     <div className="model-container">
       <Layout>
 
         <Model />
+        <div className="absolute top-0 w-screen flex justify-center ">
+          <div className="bg-white/80 rounded">
+            <ControlPanel />
+          </div>
+          
+        </div>
         {/* view usign up model files */}
         <div className='absolute bottom-2 right-4'>
           {Object.keys(steps).length <= 0 ?

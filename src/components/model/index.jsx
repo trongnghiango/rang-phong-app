@@ -10,6 +10,7 @@ import { actionTypes } from '../../reducer';
 import { defaultTimer } from '../../contants';
 import { useStateValue } from '../../StateProvider';
 import Mandibular from './Mandibular';
+import ControlPanel from '../ControlPanel';
 
 extend({ OrbitControls });
 
@@ -43,7 +44,7 @@ const CameraControls = () => {
 
 export default function Model() {
   const [state, dispatch] = useStateValue();
-  const { isPlaying, steps, step, isLoading, datas } = state;
+  const { isPlaying, steps, step, isLoading, datas, hideMaxillary, hideMandibular } = state;
 
   const { maxillary, mandibular } = datas
 
@@ -87,10 +88,10 @@ export default function Model() {
         <Suspense fallback={<Loader isFinished={handleLoaderFinished} />}>
 
           {/* Hàm răng trên */}
-          {renderMaxillary()}
+          {!hideMaxillary && renderMaxillary()}
 
           {/* Hàm răng dưới */}
-          {renderMandibular()}
+          {!hideMandibular && renderMandibular()}
 
           {/*<spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-mapSize={[512, 512]} castShadow /> */}
           {/* den ambient */}

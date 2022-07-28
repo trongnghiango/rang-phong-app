@@ -81,7 +81,7 @@ const Footer = () => {
   }, [])
 
   return (
-    <footer className="h-[60px] flex justify-center border-none border-black rounded-md mb-2 mx-2 text-black">
+    <footer className="h-[60px] bg-[#333] flex justify-center border-none border-black rounded-md mb-2 mx-2 text-black">
       <div className='h-full px-2 flex justify-center items-center'>
         <button onClick={handleToggleButton} className="w-[45px] h-[45px] flex justify-center items-center py-1 bg-slate-300 rounded-full mr-2">
           {
