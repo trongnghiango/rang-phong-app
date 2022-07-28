@@ -8,9 +8,6 @@ import Maxillary from '../Maxillary'
 
 import { actionTypes } from '../../reducer';
 import { defaultTimer } from '../../contants';
-import playIcon from '../../../assets/static/play.svg'
-import pauseIcon from '../../../assets/static/pause.svg'
-import resetIcon from '../../../assets/static/reset.svg'
 import { useStateValue } from '../../StateProvider';
 import Mandibular from './Mandibular';
 
@@ -46,28 +43,54 @@ const CameraControls = () => {
 
 export default function Model() {
   const [state, dispatch] = useStateValue();
-  const { isPlaying, steps, step, isLoading } = state;
+  const { isPlaying, steps, step, isLoading, datas } = state;
 
-  console.log({isLoading})
+  const { maxillary, mandibular } = datas
 
   //
   const handleLoaderFinished = () => {
     dispatch({ type: actionTypes.LOADING_FINISHED });
-    dispatch({ type: actionTypes.SET_STEP, step: 0});
+    dispatch({ type: actionTypes.SET_STEP, step: 0 });
+  }
+
+  const renderMaxillary = () => {
+    return (
+      <>
+        {
+          maxillary && 
+          Object.keys(maxillary).length > 0 && 
+          Object.keys(maxillary).map((val, index) => (isLoading || state.step == val) && <Maxillary key={index} url={maxillary[val]} />)
+        }
+        {
+          (maxillary && datas.length > Object.keys(maxillary).length) ? <Maxillary url={maxillary[Object.keys(maxillary).length - 1]} /> : null 
+        }
+      </>
+    );
+  }
+
+  const renderMandibular = () => {
+    return (
+      <>
+        {
+          mandibular && datas.length > 0 && Object.keys(mandibular).map((val, index) => (isLoading || state.step == val) && <Mandibular key={index} url={mandibular[val]} /> )
+        }
+        {
+          (mandibular && datas.length > Object.keys(mandibular).length) ? <Mandibular url={mandibular[Object.keys(mandibular).length - 1]} /> : null 
+        }
+      </>
+    );
   }
 
   return (
     <div className="w-full h-full">
       <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 150], fov: 50 }} >
         <Suspense fallback={<Loader isFinished={handleLoaderFinished} />}>
-          {
-            Object.keys(steps).length > 0 && Object.keys(steps).map((val, index) => (isLoading || state.step == index) && <Maxillary key={index} url={steps[val]} />)
-          }
+
+          {/* Hàm răng trên */}
+          {renderMaxillary()}
 
           {/* Hàm răng dưới */}
-          {
-             <Mandibular url={'/assets/static/mandibular/Mandibular.stl'} />
-          }
+          {renderMandibular()}
 
           {/*<spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-mapSize={[512, 512]} castShadow /> */}
           {/* den ambient */}

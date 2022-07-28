@@ -12,7 +12,7 @@ import { defaultTimer } from '../../contants';
 const Footer = () => {
   //global state
   const [state, dispatch] = useStateValue();
-  const { step, steps, isPlaying } = state;
+  const { step, steps, isPlaying, datas } = state;
 
   const refTimerId = useRef(); //when using: .current
 
@@ -30,14 +30,10 @@ const Footer = () => {
     dispatch({ type: actionTypes.RESET_STEP })
   }
 
-  const getSize = (steps) => {
-    return Object.keys(steps).length;
-  }
-
   //Play
   const start = (timer = 500) => {
     refTimerId.current = setInterval(() => {
-      if (getSize(steps) - 1 > step) {
+      if (datas.length - 1 > step) {
         setStepInc(1)
       } 
     }, timer)
@@ -72,7 +68,7 @@ const Footer = () => {
   //effect
   useEffect(() => {
     console.log({ step }, refTimerId.current)
-    if (Object.keys(steps).length - 1 <= step && isPlaying) {
+    if (datas.length - 1 <= step && isPlaying) {
       handleToggleButton();
     }
   }, [step]);
@@ -103,9 +99,9 @@ const Footer = () => {
 
       {/* <HorizontalScroll> */}
       <ProgressBar
-        percent={step * 100 / (Object.keys(steps).length - 1)}
+        percent={step * 100 / (datas.length - 1)}
       >
-        {[...Array(Object.keys(steps).length)].map((val, index) =>
+        {datas.length && [...Array(datas.length)].map((val, index) =>
           <Step key={index}>
             {({ accomplished, index }) => (
               <button

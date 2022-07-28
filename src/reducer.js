@@ -1,5 +1,6 @@
 // create, update data for app
 export const initialState = {
+  datas: {},
   steps: {},
   step: -1,
   isPlaying: false,
@@ -14,6 +15,10 @@ export const actionTypes = {
   LOADING: "LOADING",
   LOADING_FINISHED: "LOADING_FINISHED",
   TOGGLE_PLAY: "TOGGLE_PLAY",
+  // Setdata
+  SET_DATA: "SET_DATA",
+
+  //
   SET_STEPS: "SET_STEPS",
   CLEAR_STEPS: "CLEAR_STEPS",
 }
@@ -54,6 +59,13 @@ export const reducer = (state, action) => {
       return {
         ...state,
         steps: action.steps,
+      };
+
+    //
+    case actionTypes.SET_DATA:
+      return {
+        ...state,
+        datas: action.datas,
       };
 
     // Loading big data rang

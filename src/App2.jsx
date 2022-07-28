@@ -4,15 +4,20 @@ import Dropzone from "react-dropzone";
 import { actionTypes } from "./reducer";
 import { useStateValue } from "./StateProvider";
 import Model from "./components/model";
+import { useEffect } from "react";
 
 export default function App() {
   //global state
   const [state, dispatch] = useStateValue();
-  const { step, steps, isLoading } = state;
+  const { step, steps, isLoading, datas } = state;
 
 
   const setSteps = (data) => {
     dispatch({ type: actionTypes.SET_STEPS, steps: data })
+  }
+
+  const setData = (data) => {
+    dispatch({type: actionTypes.SET_DATA, datas: data})
   }
 
   const handleClearData = () => {
@@ -39,38 +44,54 @@ export default function App() {
 
 
     // kho choi qua
-    //handle mang file up vao
-    let temp = {}
+    let maxillary = {} // Ham tren
+    let mandibular = {} // Ham duoi
     for (let i = 0; i < acceptedFiles.length; i++) {
-      const key = getItemKey(acceptedFiles[i].name);
+      const { typeKey, step } = getItemKey(acceptedFiles[i].name);
 
-      if (key == i) {
-        temp[key] = URL.createObjectURL(acceptedFiles[i]);
+      if (typeKey == 'Maxillary') {
+        maxillary[step] = URL.createObjectURL(acceptedFiles[i]);
+      }
+
+      if (typeKey == 'Mandibular') {
+        mandibular[step] = URL.createObjectURL(acceptedFiles[i]);
       }
     }
 
     // luu o bien global
-    console.log({temp})
-    setSteps(temp)
+    console.log({ maxillary })
+    console.log({ mandibular })
+
+    const length = Object.keys(maxillary).length > Object.keys(mandibular).length ? Object.keys(maxillary).length : Object.keys(mandibular).length
+
+    //setData
+    setData({maxillary, mandibular, length })
+    //setSteps(maxillary)
 
     //Bật cờ loading 
-    dispatch({ type: actionTypes.LOADING})
-    //
+    dispatch({ type: actionTypes.LOADING })
+    // Load datas
+    
   }
 
   //parse ten file va lay stt lam key
   function getItemKey(str) {
     const a = str.split(".")[0]
     const pieces = a.split("-")
+    const first = pieces[0];
     const last = pieces[pieces.length - 1]
 
-    return parseInt(last);
+    return { typeKey: first, step: parseInt(last) };
   }
+
+  useEffect(() => {
+    console.log({datas})
+  }, [step] )
 
   return (
     <div className="model-container">
       <Layout>
-       
+
         <Model />
         {/* view usign up model files */}
         <div className='absolute bottom-2 right-4'>
