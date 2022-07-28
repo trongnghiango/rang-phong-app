@@ -33,9 +33,9 @@ const CameraControls = () => {
       ref={controls}
       args={[camera, domElement]}
       enableZoom={true}
-      maxAzimuthAngle={Math.PI / 2}
+      maxAzimuthAngle={Math.PI/4}
       maxPolarAngle={Math.PI}
-      minAzimuthAngle={-Math.PI / 2}
+      minAzimuthAngle={-Math.PI}
       minPolarAngle={0}
     />
   );
@@ -54,6 +54,11 @@ export default function Model() {
     dispatch({ type: actionTypes.SET_STEP, step: 0 });
   }
 
+  useEffect(() => {
+    console.log({step});
+    //console.log('hhh', Object.keys(mandibular))
+  }, [step])
+
   const renderMaxillary = () => {
     return (
       <>
@@ -63,7 +68,7 @@ export default function Model() {
           Object.keys(maxillary).map((val, index) => (isLoading || state.step == val) && <Maxillary key={index} url={maxillary[val]} />)
         }
         {
-          (maxillary && datas.length > Object.keys(maxillary).length) ? <Maxillary url={maxillary[Object.keys(maxillary).length - 1]} /> : null 
+          (maxillary && step > Object.keys(maxillary).length - 1) ? <Maxillary url={maxillary[Object.keys(maxillary).length - 1]} /> : null 
         }
       </>
     );
@@ -76,7 +81,7 @@ export default function Model() {
           mandibular && datas.length > 0 && Object.keys(mandibular).map((val, index) => (isLoading || state.step == val) && <Mandibular key={index} url={mandibular[val]} /> )
         }
         {
-          (mandibular && datas.length > Object.keys(mandibular).length) ? <Mandibular url={mandibular[Object.keys(mandibular).length - 1]} /> : null 
+          (mandibular && step > Object.keys(mandibular).length - 1) ? <Mandibular url={mandibular[Object.keys(mandibular).length - 1]} /> : null 
         }
       </>
     );
